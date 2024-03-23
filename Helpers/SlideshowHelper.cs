@@ -22,7 +22,9 @@ namespace ZipImageViewer
             [Description("ttl_" + nameof(Breath), true)]
             Breath,
             [Description("ttl_" + nameof(Emerge), true)]
-            Emerge
+            Emerge,
+            [Description("ttl_" + nameof(None), true)]
+            None
         }
 
         public class SlideAnimConfig : INotifyPropertyChanged
@@ -253,6 +255,9 @@ namespace ZipImageViewer
                 case SlideTransition.Emerge:
                     Anim_Emerge(tgtImg, frameSize, cfg);
                     break;
+                case SlideTransition.None:
+                    Anim_None(tgtImg, frameSize, cfg);
+                    break;
             }
 
             return cfg.Time_FadeOutBegin.TimeSpan.Add(cfg.TransitionDelay);
@@ -409,6 +414,26 @@ namespace ZipImageViewer
             tg.Children[0].BeginAnimation(ScaleTransform.ScaleXProperty, animZoom);
             tg.Children[0].BeginAnimation(ScaleTransform.ScaleYProperty, animZoom);
             tg.Children[1].BeginAnimation(transEdge, animPan);
+        }
+
+        private static void Anim_None(DpiImage tgtImg, Size frameSize, SlideAnimConfig cfg)
+        {
+            var rCanvas = frameSize.Width / frameSize.Height;
+            var rImage = tgtImg.RealSize.Width / tgtImg.RealSize.Height;
+            if (rImage > rCanvas)
+            {
+                //width is the longer edge comparing to the size of the canvas
+                tgtImg.Height = frameSize.Height;
+                tgtImg.Width = tgtImg.Height * rImage;
+            }
+            else
+            {
+                //height is the longer edge comparing to the size of the canvas
+                tgtImg.Width = frameSize.Width;
+                tgtImg.Height = tgtImg.Width / rImage;
+               
+            }
+
         }
     }
 }

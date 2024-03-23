@@ -145,6 +145,10 @@ namespace ZipImageViewer
                     animConfig.FadeInDuration = new TimeSpan(0, 0, 2);
                     animConfig.FadeOutDuration = TimeSpan.FromMilliseconds(1500);
                     break;
+                case SlideTransition.None:
+                    animConfig.FadeInDuration = new TimeSpan(0, 0, 0);
+                    animConfig.FadeOutDuration = new TimeSpan(0, 0, 0);
+                    break;
             }
         }
 
